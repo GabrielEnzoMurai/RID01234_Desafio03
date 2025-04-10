@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">]
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,29 @@
 </head>
 <body>
     <main>
-        <h1>Board de tarefas</h1>    
+        <h1>Board de tarefas</h1>
+        <section id="create-task-section">
+            <form id="create-task-form">
+                <input 
+                type="text"
+                id="NomeDaTarefa"
+                placeholder="Nome da tarefa"
+                class="input-form"
+                />
+                <input 
+                type="text"
+                id="Etiqueta"
+                aria-label="Etiqueta"
+                placeholder="Etiqueta"
+                class="input-form"
+                />
+                <button type="submit" id="save-task" class="add-task-button">+</button>
+            </form>
+        </section>   
+        <section class="task-list">
+            <ul id="list-item"></ul>
+        </section> 
+        <footer id="footer-section"></footer>
     </main>
 </body>
 </html>
