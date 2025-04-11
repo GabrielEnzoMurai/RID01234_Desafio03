@@ -1,28 +1,36 @@
 let tasks = [
-    {id: 1, taskName: 'Programar', etiqueta: 'JS', checked: false},
-    {id: 1, taskName: 'Estudar', etiqueta: 'HTML', checked: false},
-    {id: 1, taskName: 'Estilizar', etiqueta: 'CSS', checked: false},
+    {id: 1, taskName: 'Programar', label: 'JS', checked: false},
+    {id: 1, taskName: 'Estudar', label: 'HTML', checked: false},
+    {id: 1, taskName: 'Estilizar', label: 'CSS', checked: false},
 ]
 
-const getCheckboxInput = ({id, taskName, etiqueta, checked}) => {
+const getCheckboxInput = ({id, taskName, label, checked}) => {
     const checkbox = document.createElement('input')
-    const label = document.createElement('label')
-    const wrapper = document.createElement('div')
+    const taskContent = document.createElement('label')
+    const labelContent = document.createElement('label')
+    const mainDiv = document.createElement('div')
+    const subDiv = document.createElement('div')
     const checkboxId = `${id}-checkbox`
 
     checkbox.type = 'checkbox'
     checkbox.id = checkboxId
     checkbox.checked = checked
 
-    label.textContent = taskName
-    label.htmlFor = checkboxId
+    taskContent.textContent = taskName
+    taskContent.htmlFor = checkboxId
+
+    labelContent.textContent = label
     
-    wrapper.className = 'checkbox-label-container'
+    mainDiv.className = 'checkbox-taskContent-container'
 
-    wrapper.appendChild(checkbox)
-    wrapper.appendChild(label)
+    subDiv.className = 'labelContent-container'
 
-    return wrapper
+    mainDiv.appendChild(checkbox)
+    mainDiv.appendChild(taskContent)
+    subDiv.appendChild(labelContent)
+    mainDiv.appendChild(subDiv)
+
+    return mainDiv
 }
 
 window.onload = function() {
