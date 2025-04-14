@@ -7,7 +7,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-    <script src="./index.js"></script>
     <title>Gerenciador de Tarefas</title>
 </head>
 <body>
@@ -17,18 +16,18 @@
             <form id="create-task-form">
                 <input 
                 type="text"
-                id="NomeDaTarefa"
+                id="nomeDaTarefa"
                 placeholder="Nome da tarefa"
                 class="input-form"
                 />
                 <input 
                 type="text"
-                id="Etiqueta"
+                id="etiqueta"
                 aria-label="Etiqueta"
                 placeholder="Etiqueta"
                 class="input-form"
                 />
-                <button type="submit" id="save-task" class="add-task-button">+</button>
+                <button id="save-task" class="add-task-button">+</button>
             </form>
         </section>   
         <section class="task-list">
@@ -36,5 +35,6 @@
         </section> 
         <footer id="footer-section"></footer>
     </main>
+    <script src="./index.js"></script>
 </body>
 </html>
