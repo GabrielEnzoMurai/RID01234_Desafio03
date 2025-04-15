@@ -58,6 +58,7 @@ const renderTasks = () => {
     tasks.forEach (task => {
         const taskItem = getCheckboxInput(task);
         const listItem = document.createElement('li');
+        taskItem.className = 'task'
         listItem.appendChild(taskItem);
         list.appendChild(listItem);
     });
