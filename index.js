@@ -1,93 +1,109 @@
-let tasks = [
-    {id: 1, taskName: 'Programar', label: 'JS', checked: false, createdAt: '15/03/2003'},
-    {id: 2, taskName: 'Estudar', label: 'HTML', checked: false, createdAt: '15/03/2003'},
-    {id: 3, taskName: 'Estilizar', label: 'CSS', checked: false, createdAt: '15/03/2003'},
-]
+let tasks = [];
+
+const saveTasksToLocalStorage = () => {
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+};
+
+const loadTasksFromLocalStorage = () => {
+    const storedTasks = localStorage.getItem('tasks');
+    if (storedTasks) {
+        tasks = JSON.parse(storedTasks);
+    }
+};
 
 const completedCount = () => {
-    const completedCount = tasks.filter(task => task.checked).length
-    document.getElementById('footer-section').textContent = `${completedCount} tarefa(s) concluídas(s)`
-}
+    const completedCount = tasks.filter(task => task.checked).length;
+    document.getElementById('completed-count').textContent = `${completedCount} tarefa(s) concluída(s)`;
+};
 
 const getCheckboxInput = ({ id, taskName, label, checked, createdAt }) => {
-    const mainDiv = document.createElement('div')
-    mainDiv.classname = 'task-div'
+    const mainDiv = document.createElement('div');
+    mainDiv.className = 'task-div';
     
-    const taskInfo = document.createElement('div')
-    taskInfo.classname = 'task-info-div'
+    const taskInfo = document.createElement('div');
+    taskInfo.className = 'task-info-div';
 
-    const taskNameElement = document.createElement('span')
-    taskNameElement.textContent = taskName
+    const taskNameElement = document.createElement('span');
+    taskNameElement.textContent = taskName;
 
-    const labelElement = document.createElement('span')
-    labelElement.className = 'task-label'
-    labelElement.textContent = label
+    const labelElement = document.createElement('span');
+    labelElement.className = 'task-label';
+    labelElement.textContent = label;
 
-    const createdAtElement = document.createElement('span')
-    createdAtElement.className = 'task-date'
-    createdAtElement.textContent = `Criado em ${createdAt}`
+    const createdAtElement = document.createElement('span');
+    createdAtElement.className = 'task-date';
+    createdAtElement.textContent = `Criado em ${createdAt}`;
 
-    const completeButtton = document.createElement('button')
-    completeButtton.className = 'complete-button'
-    completeButtton.textContent = checked ? '✔' : 'Concluir'
-    completeButtton.onclick = () => {
+    const completeButton = document.createElement('button');
+    completeButton.className = 'complete-button';
+    completeButton.textContent = checked ? '✔' : 'Concluir';
+    completeButton.onclick = () => {
         tasks = tasks.map(task => 
-            task.id === id ? {...task, checked: !task.checked} : task
+            task.id === id ? { ...task, checked: !task.checked } : task
         );
+        saveTasksToLocalStorage();
         renderTasks();
     };
 
-    taskInfo.appendChild(taskNameElement)
-    taskInfo.appendChild(labelElement)
-    taskInfo.appendChild(createdAtElement)
+    taskInfo.appendChild(taskNameElement);
+    taskInfo.appendChild(labelElement);
+    taskInfo.appendChild(createdAtElement);
 
-    mainDiv.appendChild(taskInfo)
-    mainDiv.appendChild(completeButtton)
+    mainDiv.appendChild(taskInfo);
+    mainDiv.appendChild(completeButton);
 
     if (checked) {
-        taskNameElement.style.textDecoration = 'line-through'
-        completeButtton.disabled = true
+        taskNameElement.style.textDecoration = 'line-through';
+        completeButton.disabled = true;
     }
 
-    return mainDiv
-}
+    return mainDiv;
+};
 
 const renderTasks = () => {
     const list = document.getElementById('item-list');
     list.innerHTML = '';
-    tasks.forEach (task => {
+    tasks.forEach(task => {
         const taskItem = getCheckboxInput(task);
         const listItem = document.createElement('li');
-        taskItem.className = 'task'
+        taskItem.className = 'task';
         listItem.appendChild(taskItem);
         list.appendChild(listItem);
     });
     completedCount();
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('save-task').onclick = () => {
-        const taskName = document.getElementById('nomeDaTarefa').value;
-        const taskLabel = document.getElementById('etiqueta').value;
+document.getElementById('save-task').onclick = (event) => {
+    event.preventDefault();
+
+    const taskName = document.getElementById('nomeDaTarefa').value.trim();
+    const taskLabel = document.getElementById('etiqueta').value.trim();
     
-        if (taskName && taskLabel) {
-            const newTask = {
-                id: tasks.length + 1,
-                taskName,
-                label: taskLabel,
-                checked: false,
-                createdAt: new Date().toLocaleDateString('pt-BR'),
-            }
-            tasks.push(newTask);
-            
-            renderTasks();
-            
-            document.getElementById('nomeDaTarefa').value = '';
-            document.getElementById('etiqueta').value = '';
-    
+    if (taskName && taskLabel) {
+        const newTask = {
+            id: tasks.length + 1,
+            taskName,
+            label: taskLabel,
+            checked: false,
+            createdAt: new Date().toLocaleDateString('pt-BR'),
         };
-    };
-});
+        tasks.push(newTask);
+        saveTasksToLocalStorage();
+        renderTasks();
+        document.getElementById('nomeDaTarefa').value = '';
+        document.getElementById('etiqueta').value = '';
+    } else {
+        alert('Por favor, preencha todos os campos.');
+    }
+};
 
+document.getElementById('remove-completed').onclick = () => {
+    tasks = tasks.filter(task => !task.checked); 
+    saveTasksToLocalStorage(); 
+    renderTasks(); 
+};
 
-window.onload = renderTasks;
+window.onload = () => {
+    loadTasksFromLocalStorage();
+    renderTasks();
+};
