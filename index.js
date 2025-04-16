@@ -23,8 +23,15 @@ const getCheckboxInput = ({ id, taskName, label, checked, createdAt }) => {
     const taskInfo = document.createElement('div');
     taskInfo.className = 'task-info-div';
 
+    const taskNameDiv = document.createElement('div');
+    taskNameDiv.className = 'task-name-div';
+
+    const taskLabelDateDiv = document.createElement('div');
+    taskLabelDateDiv.className = 'task-label-date-div'; 
+
     const taskNameElement = document.createElement('span');
     taskNameElement.textContent = taskName;
+    taskNameElement.className = 'task-name'
 
     const labelElement = document.createElement('span');
     labelElement.className = 'task-label';
@@ -32,7 +39,7 @@ const getCheckboxInput = ({ id, taskName, label, checked, createdAt }) => {
 
     const createdAtElement = document.createElement('span');
     createdAtElement.className = 'task-date';
-    createdAtElement.textContent = `Criado em ${createdAt}`;
+    createdAtElement.textContent = `Criado em: ${createdAt}`;
 
     const completeButton = document.createElement('button');
     completeButton.className = 'complete-button';
@@ -48,6 +55,13 @@ const getCheckboxInput = ({ id, taskName, label, checked, createdAt }) => {
     taskInfo.appendChild(taskNameElement);
     taskInfo.appendChild(labelElement);
     taskInfo.appendChild(createdAtElement);
+    taskInfo.appendChild(taskNameDiv);
+    taskInfo.appendChild(taskLabelDateDiv);
+
+    taskNameDiv.appendChild(taskNameElement);
+
+    taskLabelDateDiv.appendChild(labelElement);
+    taskLabelDateDiv.appendChild(createdAtElement)
 
     mainDiv.appendChild(taskInfo);
     mainDiv.appendChild(completeButton);
@@ -55,6 +69,7 @@ const getCheckboxInput = ({ id, taskName, label, checked, createdAt }) => {
     if (checked) {
         taskNameElement.style.textDecoration = 'line-through';
         completeButton.disabled = true;
+        mainDiv.classList.add('task-completed')
     }
 
     return mainDiv;
@@ -66,7 +81,6 @@ const renderTasks = () => {
     tasks.forEach(task => {
         const taskItem = getCheckboxInput(task);
         const listItem = document.createElement('li');
-        taskItem.className = 'task';
         listItem.appendChild(taskItem);
         list.appendChild(listItem);
     });
